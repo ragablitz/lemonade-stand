@@ -30,9 +30,6 @@ npm install
 Start the backend servers:
 
 ```bash
-# For Next.js frontend
-npm run dev
-
 # For NestJS backend (from /src or /api directory)
 npm run start:dev
 ```
@@ -42,5 +39,5 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 ### API
 
 The backend API is powered by NestJS and exposes endpoints for managing beverages and sizes.  
-See the `/src/app/beverages` module.
+See the `/src/app/beverages` & `/src/app/order` module.
 ---
