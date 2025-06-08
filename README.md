@@ -8,7 +8,7 @@ A modern web application for managing a digital lemonade stand, built with [Next
 - 💵 Set and update prices
 - 🛡️ API with validation and error handling (NestJS)
 - ⚡ Fast, modern frontend (Next.js)
-- 🗄️ Uses TypeORM for database operations
+- 🗄️ Uses  sqlite TypeORM for database operations
 
 ### Prerequisites
 
