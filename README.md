@@ -25,9 +25,7 @@ cd classic-lemonade-stand
 npm install
 ```
 
-### Running the Development Server
-
-Start the backend servers:
+### Start the backend servers:
 
 ```bash
 # For Next.js frontend
@@ -42,5 +40,5 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 ### API
 
 The backend API is powered by NestJS and exposes endpoints for managing beverages and sizes.  
-See the `/src/app/beverages` module.
+See the `/src/app/beverages` and `/src/app/orders` module.
 ---
