@@ -8,7 +8,7 @@ A modern web application for managing a digital lemonade stand, built with [Next
 - 💵 Set and update prices
 - 🛡️ API with validation and error handling (NestJS)
 - ⚡ Fast, modern frontend (Next.js)
-- 🗄️ Uses TypeORM for database operations
+- 🗄️ Uses sqlite TypeORM for database operations
 
 ### Prerequisites
 
@@ -20,8 +20,8 @@ A modern web application for managing a digital lemonade stand, built with [Next
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/your-username/classic-lemonade-stand.git
-cd classic-lemonade-stand
+git clone https://github.com/ragablitz/lemonade-stand.git
+cd lemonade-stand
 npm install
 ```
 
@@ -30,9 +30,6 @@ npm install
 Start the backend servers:
 
 ```bash
-# For Next.js frontend
-npm run dev
-
 # For NestJS backend (from /src or /api directory)
 npm run start:dev
 ```
@@ -42,5 +39,5 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 ### API
 
 The backend API is powered by NestJS and exposes endpoints for managing beverages and sizes.  
-See the `/src/app/beverages` module.
+See the `/src/app/beverages` & `/src/app/order` module.
 ---
