@@ -6,6 +6,7 @@ import { OrderItem } from './entities/order-item.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { BeveragesService } from '../beverages/beverages.service';
 import { v4 as uuidv4 } from 'uuid';
+import { BeverageSize } from '../beverages/entities/beverage-size.entity';
 
 @Injectable()
 export class OrdersService {
@@ -14,7 +15,8 @@ export class OrdersService {
     private orderRepository: Repository<Order>,
     @InjectRepository(OrderItem)
     private orderItemRepository: Repository<OrderItem>,
-    private beveragesService: BeveragesService,
+    @InjectRepository(BeverageSize)
+    private beverageSizesRepository: Repository<BeverageSize>
   ) {}
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {

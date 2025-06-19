@@ -26,27 +26,24 @@ export class BeveragesService {
     }
 
     const beverage = this.beverageRepository.create(createBeverageDto);
-    const savedBeverage = await this.beverageRepository.save(beverage);
-
-    if (createBeverageDto.sizes && createBeverageDto.sizes.length > 0) {
-      const sizes = createBeverageDto.sizes.map(sizeDto => 
-        this.beverageSizeRepository.create({
-          ...sizeDto,
-          price: parseFloat(sizeDto.price),
-          beverageId: savedBeverage.id,
-        })
-      );
-      await this.beverageSizeRepository.save(sizes);
-    }
-
-    return this.findOne(savedBeverage.id);
+    return this.beverageRepository.save(beverage);
   }
 
-  async findAll(): Promise<Beverage[]> {
-    return this.beverageRepository.find({
-      relations: ['sizes'],
-      order: { name: 'ASC' },
-    });
+   // Get all beverages with their sizes
+  async findAll(includeInactive: boolean = false): Promise<Beverage[]> {
+    const queryBuilder = this.beverageRepository
+      .createQueryBuilder('beverage')
+      .leftJoinAndSelect('beverage.sizes', 'size')
+      .orderBy('beverage.name', 'ASC')
+      .addOrderBy('size.price', 'ASC');
+
+    if (!includeInactive) {
+      queryBuilder
+        .where('beverage.isActive = :isActive', { isActive: true })
+        .andWhere('(size.isAvailable = :isAvailable OR size.id IS NULL)', { isAvailable: true });
+    }
+
+    return queryBuilder.getMany();
   }
 
   async findOne(id: number): Promise<Beverage> {
@@ -64,7 +61,7 @@ export class BeveragesService {
 
   async update(id: number, updateBeverageDto: UpdateBeverageDto): Promise<Beverage> {
     const beverage = await this.findOne(id);
-
+// Check for name conflicts (excluding current beverage)
     if (updateBeverageDto.name && updateBeverageDto.name !== beverage.name) {
       const existingBeverage = await this.beverageRepository.findOne({
         where: { name: updateBeverageDto.name },
@@ -75,12 +72,10 @@ export class BeveragesService {
       }
     }
 
-    await this.beverageRepository.update(id, {
-      ...updateBeverageDto,
-      updatedAt: new Date(),
-    });
-
-    return this.findOne(id);
+    Object.assign(beverage, updateBeverageDto);
+    beverage.updatedAt = new Date();
+    
+    return this.beverageRepository.save(beverage);
   }
 
   async remove(id: number): Promise<void> {

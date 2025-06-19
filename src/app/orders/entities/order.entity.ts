@@ -42,4 +42,17 @@ export class Order {
 
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt!: Date;
+
+  // Computed property for order summary
+  get itemsCount(): number {
+    return this.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+  }
+
+  get orderSummary(): string {
+    if (!this.items?.length) return 'No items';
+    
+    return this.items
+      .map(item => `${item.quantity}x ${item.beverageSize.beverage.name} (${item.beverageSize.size})`)
+      .join(', ');
+  }
 }

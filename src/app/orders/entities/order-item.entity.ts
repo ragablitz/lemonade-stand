@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Order } from './order.entity';
+import { BeverageSize } from '../../beverages/entities/beverage-size.entity';
 
 @Entity('order_items')
 export class OrderItem {
@@ -8,9 +9,6 @@ export class OrderItem {
 
   @Column()
   beverageName!: string;
-
-  @Column()
-  beverageSize!: string;
 
   @Column('decimal', { precision: 10, scale: 2 })
   unitPrice!: number;
@@ -32,4 +30,12 @@ export class OrderItem {
 
   @Column()
   beverageSizeId!: number;
+
+  // Many order items reference one beverage size
+  @ManyToOne(() => BeverageSize, {
+    eager: true // Always load beverage size info
+  })
+  @JoinColumn({ name: 'beverageSizeId' })
+  beverageSize!: BeverageSize;
+
 }

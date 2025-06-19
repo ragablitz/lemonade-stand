@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from '../common/filters/http-exception.filter';
 
 async function bootstrap() {
@@ -13,6 +14,15 @@ async function bootstrap() {
     transform: true,
   }));
   
+// Swagger documentation
+  const config = new DocumentBuilder()
+    .setTitle('Digital Lemonade Stand API')
+    .setDescription('Backend API for managing beverages and processing orders')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
   // Use Global exception filter
   app.useGlobalFilters(new HttpExceptionFilter());
   
